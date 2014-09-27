@@ -16,8 +16,12 @@ public class NewsSource extends Model {
 
     String name;
     String description;
-    String feed;
-    Date lastUpdated;
+    String feed; // feed url
+    Date lastUpdated; // keep track of when the system was updated.
 
+    public void fetch(){
+        lastUpdated =  new Date();
+
+    }
 
 }
