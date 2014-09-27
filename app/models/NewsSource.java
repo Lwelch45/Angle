@@ -88,33 +88,31 @@ public class NewsSource extends Model {
     }
 
     public static void init(){
-        NewsSource n = new NewsSource("CNN-Top Stories","http://rss.cnn.com/rss/cnn_topstories.rss" );
+        NewsSource n = new NewsSource("CNN-Top Stories","http://rss.cnn.com/rss/cnn_topstories.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-World","http://rss.cnn.com/rss/cnn_world.rss" );
+        n = new NewsSource("CNN-World","http://rss.cnn.com/rss/cnn_world.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-U.S","http://rss.cnn.com/rss/cnn_us.rss" );
+        n = new NewsSource("CNN-U.S","http://rss.cnn.com/rss/cnn_us.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Business","http://rss.cnn.com/rss/money_latest.rss" );
+        n = new NewsSource("CNN-Business","http://rss.cnn.com/rss/money_latest.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Politics","http://rss.cnn.com/rss/cnn_allpolitics.rss" );
+        n = new NewsSource("CNN-Politics","http://rss.cnn.com/rss/cnn_allpolitics.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Crime","http://rss.cnn.com/rss/cnn_crime.rss" );
+        n = new NewsSource("CNN-Crime","http://rss.cnn.com/rss/cnn_crime.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Technology","http://rss.cnn.com/rss/cnn_tech.rss" );
+        n = new NewsSource("CNN-Technology","http://rss.cnn.com/rss/cnn_tech.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Health","http://rss.cnn.com/rss/cnn_health.rss" );
+        n = new NewsSource("CNN-Health","http://rss.cnn.com/rss/cnn_health.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Travel","http://rss.cnn.com/rss/cnn_travel.rss" );
+        n = new NewsSource("CNN-Travel","http://rss.cnn.com/rss/cnn_travel.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Living","http://rss.cnn.com/rss/cnn_living.rss" );
+        n = new NewsSource("CNN-Living","http://rss.cnn.com/rss/cnn_living.rss","6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Video","http://rss.cnn.com/rss/cnn_freevideo.rss" );
+        n = new NewsSource("CNN-Video","http://rss.cnn.com/rss/cnn_freevideo.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Most Popular","http://rss.cnn.com/rss/cnn_mostpopular.rss" );
+        n = new NewsSource("CNN-Most Popular","http://rss.cnn.com/rss/cnn_mostpopular.rss", "6wuzfqug" );
         n.save();
-        n = new NewsSource("CNN-Most Recent","http://rss.cnn.com/rss/cnn_latest.rss" );
-        n.save();
-        n = new NewsSource("CNN-iReports on CNN","http://rss.ireport.com/feeds/oncnn.rss" );
+        n = new NewsSource("CNN-Most Recent","http://rss.cnn.com/rss/cnn_latest.rss", "6wuzfqug" );
         n.save();
 
         //n = new NewsSource("","" );

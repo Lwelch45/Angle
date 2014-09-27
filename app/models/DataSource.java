@@ -16,6 +16,12 @@ public class DataSource extends Model{
     String name;
     double score;
 
+
+    public static Finder<Long, DataSource> find =new Finder<Long, DataSource>(Long.class, DataSource.class);
+
+    public static DataSource findByName(String n){
+        return find.all().get(1);
+    }
     public static void init(){
         DataSource d = new DataSource();
         d.name = "Rhine";

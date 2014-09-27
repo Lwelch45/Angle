@@ -5,6 +5,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 import models.NewsArticle;
+import play.Logger;
 import play.api.libs.Crypto;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -37,7 +38,7 @@ public class Test extends Controller {
                 System.out.println("Author: " + entry.getAuthor());
                 System.out.println("Publish Date: " + entry.getPublishedDate());
                 System.out.println("Description: " + Util.clean(entry.getDescription().getValue()));
-
+break;
             }
         }catch(Exception ex){}
             return ok();
@@ -59,12 +60,16 @@ public class Test extends Controller {
                 System.out.println("Link: " + entry.getLink());
                 System.out.println("Author: " + entry.getAuthor());
                 System.out.println("Publish Date: " + entry.getPublishedDate());
-                System.out.println("Description: " + entry.getDescription().getValue());
-                NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()), entry.getLink(), entry.getPublishedDate());
+                System.out.println("Description: " + Util.clean(entry.getDescription().getValue()));
+                NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()), entry.getLink(), entry.getPublishedDate(),"6wuzfqug");
+
                 na.hash = Crypto.encryptAES(na.title);
                 na.getText();
+                break;
             }
-        }catch(Exception ex){}
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
             return ok();
     }
 }

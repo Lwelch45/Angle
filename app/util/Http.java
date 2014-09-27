@@ -10,7 +10,7 @@ import play.libs.ws.WSResponse;
  * Created by laurence on 9/24/2014.
  */
 public class Http {
-    public static final Integer TIMEOUT = 30000; //30 seconds
+    public static final Integer TIMEOUT = 120000; //120 seconds
     public WSRequestHolder holder;
 
     public Http(String url){
