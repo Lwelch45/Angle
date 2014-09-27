@@ -2,7 +2,7 @@ package models;
 
 import  play.Logger;
 import javax.persistence.*;
-
+import play.api.libs.Crypto;
 import play.Play;
 import play.db.ebean.Model;
 
@@ -10,6 +10,7 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import util.Util;
 
 import java.util.Date;
 import java.util.List;
@@ -65,21 +66,25 @@ public class NewsSource extends Model {
                 System.out.println("Author: " + entry.getAuthor());
                 System.out.println("Publish Date: " + entry.getPublishedDate());
                 System.out.println("Description: " + entry.getDescription().getValue());
+                NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()),entry.getLink(),entry.getPublishedDate());
+                na.hash = Crypto.encryptAES(na.title);
+                if (NewsArticle.findByHash(na.hash) == null)
+                    na.save();
             }
         }catch (Exception ex){
             Logger.debug(ex.toString());
         }
     }
 
-    public void updateSet(){
+    public void updateSet(Boolean force){
         Date currentDate = new Date();
-        if(currentDate.getTime() - lastUpdated.getTime() > Play.application().configuration().getLong("updateInterval"))
+        if(currentDate.getTime() - lastUpdated.getTime() > Play.application().configuration().getLong("updateInterval") || force)
             fetch();
     }
-    public static void updateEntireSet(){
+    public static void updateEntireSet(Boolean force){
         Date currentDate = new Date();
         for (NewsSource s : NewsSource.find.all())
-           s.updateSet();
+           s.updateSet(force);
     }
 
     public static void init(){
@@ -104,8 +109,6 @@ public class NewsSource extends Model {
         n = new NewsSource("CNN-Living","http://rss.cnn.com/rss/cnn_living.rss" );
         n.save();
         n = new NewsSource("CNN-Video","http://rss.cnn.com/rss/cnn_freevideo.rss" );
-        n.save();
-        n = new NewsSource("CNN-Student News","http://rss.cnn.com/rss/cnn_studentnews.rss" );
         n.save();
         n = new NewsSource("CNN-Most Popular","http://rss.cnn.com/rss/cnn_mostpopular.rss" );
         n.save();

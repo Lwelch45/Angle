@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return ok();
     }
 
     public static Result initalizeDatabase(){
@@ -28,7 +28,7 @@ public class Application extends Controller {
                 Duration.create(30, TimeUnit.MINUTES),     //Frequency 30 minutes
                 new Runnable(){
                     public void run(){
-                        NewsSource.updateEntireSet();
+                        NewsSource.updateEntireSet(true);
                     }
                 },
                 Akka.system().dispatcher()
