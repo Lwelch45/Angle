@@ -24,7 +24,7 @@ public class Test extends Controller {
     public static Result checkFeedFormat(){
         // http://rss.cnn.com/rss/cnn_topstories.rss
         try {
-            URL u = new URL("http://rss.cnn.com/rss/cnn_topstories.rss");
+            URL u = new URL("http://www.nytimes.com/services/xml/rss/nyt/World.xml");
             HttpURLConnection httpcon = (HttpURLConnection) u.openConnection();
 
             SyndFeedInput input = new SyndFeedInput();
@@ -61,10 +61,11 @@ break;
                 System.out.println("Author: " + entry.getAuthor());
                 System.out.println("Publish Date: " + entry.getPublishedDate());
                 System.out.println("Description: " + Util.clean(entry.getDescription().getValue()));
-                NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()), entry.getLink(), entry.getPublishedDate(),"6wuzfqug");
+                NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()), entry.getLink(), entry.getPublishedDate(),"6wuzfqug"); //,"38toxyju");
 
                 na.hash = Crypto.encryptAES(na.title);
                 na.getText();
+                na.analyze();
                 break;
             }
         }catch(Exception ex){

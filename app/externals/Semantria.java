@@ -70,13 +70,14 @@ public class Semantria extends Scraper {
             //Retreives analysis results for queued collection
              result = session.getDocument(d.getId());
         } while (result.getStatus() == TaskStatus.QUEUED);
-        ea.category = result.getSummary();
+        ea.summary = result.getSummary();
         ea.sentimentScore = result.getSentimentScore();
 
         for(DocTheme theme : result.getThemes()){
             ea.themes.add(new Theme(theme.getTitle(), theme.getSentimentScore(), theme.getEvidence(), theme.getIsAbout(), theme.getSentimentPolarity()));
         }
-        ea.category = result.getAutoCategories().get(0).getTitle();
+        if (result.getAutoCategories() != null)
+            ea.category = result.getAutoCategories().get(0).getTitle();
         ea.sentiment = result.getSentimentPolarity();
         for(DocEntity de : result.getEntities()){
             ea.addEntity(new KeyEntity(de.getTitle(), de.getSentimentPolarity(), de.getSentimentScore(), de.getEvidence(), de.getConfident(), ds));

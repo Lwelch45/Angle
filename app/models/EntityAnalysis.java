@@ -15,6 +15,7 @@ public class EntityAnalysis extends Model {
 
     public String category;
 
+    @OneToMany(mappedBy = "features")
     public NewsArticle article;
 
     @ManyToOne

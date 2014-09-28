@@ -68,8 +68,11 @@ public class NewsSource extends Model {
                 System.out.println("Description: " + entry.getDescription().getValue());
                 NewsArticle na = new NewsArticle(entry.getTitle(), Util.clean(entry.getDescription().getValue()),entry.getLink(),entry.getPublishedDate());
                 na.hash = Crypto.encryptAES(na.title);
-                if (NewsArticle.findByHash(na.hash) == null)
+                if (NewsArticle.findByHash(na.hash) == null){
                     na.save();
+                    na.getText();
+                    na.analyze();
+                }
             }
         }catch (Exception ex){
             Logger.debug(ex.toString());
@@ -88,6 +91,8 @@ public class NewsSource extends Model {
     }
 
     public static void init(){
+
+        //CNN
         NewsSource n = new NewsSource("CNN-Top Stories","http://rss.cnn.com/rss/cnn_topstories.rss", "6wuzfqug" );
         n.save();
         n = new NewsSource("CNN-World","http://rss.cnn.com/rss/cnn_world.rss", "6wuzfqug" );
@@ -114,6 +119,18 @@ public class NewsSource extends Model {
         n.save();
         n = new NewsSource("CNN-Most Recent","http://rss.cnn.com/rss/cnn_latest.rss", "6wuzfqug" );
         n.save();
+
+        //NYTIMES
+        //n = new NewsSource("NYT-World","http://www.nytimes.com/services/xml/rss/nyt/World.xml","38toxyju" );
+        //n.save();
+        //n = new NewsSource("NYT-U.S","http://www.nytimes.com/services/xml/rss/nyt/US.xml", "38toxyju" );
+        //n.save();
+        //n = new NewsSource("NYT-Technology","hhttp://rss.nytimes.com/services/xml/rss/nyt/Technology.xml", "38toxyju" );
+        //n.save();
+        //n = new NewsSource("NYT-Business","http://rss.nytimes.com/services/xml/rss/nyt/Business.xml", "38toxyju" );
+        //n.save();
+        //n = new NewsSource("NYT-Politics","http://www.nytimes.com/services/xml/rss/nyt/Politics.xml", "38toxyju" );
+        //n.save();
 
         //n = new NewsSource("","" );
         //n.save();

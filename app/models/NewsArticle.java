@@ -1,13 +1,14 @@
 package models;
 
 import javax.persistence.*;
+import javax.xml.crypto.Data;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import externals.CNN;
-import externals.KimonoLabs;
+import externals.*;
 import play.db.ebean.Model;
 import play.libs.Json;
 import play.mvc.Results;
+import util.Util;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ public class NewsArticle extends Model{
     public List<String> thumbnails;
     public List<String> images;
 
-    @OneToMany(mappedBy = "article")
+    @ManyToOne
     public List<EntityAnalysis> features;
     public static Finder<Long, NewsArticle> find =new Finder<Long, NewsArticle>(Long.class, NewsArticle.class);
     public static NewsArticle findByHash(String hash){
@@ -60,7 +61,8 @@ public class NewsArticle extends Model{
     public NewsSource source;
 
     public EntityAnalysis analyze(){
-
+        Semantria s = new Semantria();
+        EntityAnalysis ea = s.analyze(this);
         return new EntityAnalysis();
     }
 
@@ -82,7 +84,56 @@ public class NewsArticle extends Model{
                 body = details.get("Bodys");
             if(details.containsKey("Thumbnails"))
                 thumbnails = details.get("Thumbnails");
+            System.out.println(body.size());
         }
+        if (api.matches("38toxyju")){
+            NYT scraper = new NYT();
+            String[] split = link.split("/");
+            //System.out.println(split[7]);
+            HashMap<Integer, String> map = new HashMap<Integer, String>();
+            map.put(0,"&kimpath2="+ split[4]);
+            map.put(1,"&kimpath4="+ split[6]);
+            map.put(0,"&kimpath6="+ split[8]);
+            map.put(1,"&kimpath10="+ split[10]);
+            map.put(1,"&kimpath12="+ split[12]);
+            scraper.scrape(map, api);
+            Map<String, List<String>> details = scraper.root;
+            if(details.containsKey("Highlights"))
+                highlights = details.get("Highlights");
+            if(details.containsKey("Bodys"))
+                body = details.get("Bodys");
+            if(details.containsKey("Thumbnails"))
+                thumbnails = details.get("Thumbnails");
+            System.out.println(body.size());
+        }
+    }
+
+    public static Double calcDistance(NewsArticle A, NewsArticle B){
+        Double timeDiff = Util.calcTimeDiffernce(A.pubDate,B.pubDate);
+        Double themeDiff = 0.5;
+        if(A.features != null && A.features.get(1).themes != null && A.features.get(1).themes.size() > 3 && B.features != null && B.features.get(1).themes != null && B.features.get(1).themes.size() > 3){
+            double e = Rhine.fetchDistance(Util.ThemeToList(A.features.get(1).themes),Util.ThemeToList (B.features.get(1).themes));
+            for(int x = 0; x <3;x++) {
+                e +=Rhine.fetchDistance(A.features.get(1).themes.get(x).name,B.features.get(1).themes.get(x).name);
+            }
+            themeDiff = e/4;
+       }
+        Double topicDiff = 0.5;
+        if(A.features != null && A.features.get(1).category != null && B.features != null && B.features.get(1).category != null){
+            double e = Rhine.fetchDistance(A.features.get(1).category,B.features.get(1).category);
+
+            topicDiff = e;
+        }
+        Double EntityDiff = 0.5;
+        if(A.features != null && A.features.get(0).entities != null && A.features.get(1).entities.size() > 3 && B.features != null && B.features.get(1).entities != null && B.features.get(1).entities.size() > 3){
+            double e = Rhine.fetchDistance(A.features.get(0).entities, B.features.get(1).entities);
+
+            EntityDiff = e;
+        }
+        try{
+           Thread.sleep(2000);
+        }catch(Exception ex){}
+        return 0.0;
     }
 
     @Override
